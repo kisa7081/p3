@@ -1,6 +1,6 @@
 <?php
 
-namespace kisa7081;
+namespace App;
 
 class Converter
 {
@@ -10,12 +10,7 @@ class Converter
      * Also, the keys are used as option values in the
      * base currency dropdown, and the values are used for display.
      */
-    private $currency_list = [
-        'USD' => 'Dollar',
-        'MXN' => 'Peso',
-        'GBP' => 'Pound',
-        'RUB' => 'Ruble'
-    ];
+    private $currency_list;
 
     /*
      * This is an array of the keys of the $currency_list.
@@ -30,7 +25,13 @@ class Converter
     public function __construct()
     {
         # Set up the values that will be used.
+        $this->currency_list = config('app.currency_list');
         $this->keys = array_keys($this->currency_list);
+    }
+
+    public function getKeys()
+    {
+        return $this->keys;
     }
 
     /*
