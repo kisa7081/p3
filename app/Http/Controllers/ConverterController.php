@@ -35,4 +35,16 @@ class ConverterController extends Controller
             'hasErrors' => $this->hasErrors
         ]);
     }
+
+    public function convert()
+    {
+        return view('convert', ['timeValue' => time(),
+            'amount' => 0,
+            'currency_list' => $this->currency_list,
+            'current' => $this->current,
+            'target' => $this->target,
+            'round' => $this->round,
+            'hasErrors' => $this->hasErrors
+        ]);
+    }
 }
