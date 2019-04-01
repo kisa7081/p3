@@ -18,6 +18,8 @@ class Converter
      */
     private $keys;
 
+    private $ratesArray;
+
     #Methods
     /*
      * Magic constructor method used to instantiate an instance of Converter.
@@ -27,6 +29,7 @@ class Converter
         # Set up the values that will be used.
         $this->currency_list = config('app.currency_list');
         $this->keys = array_keys($this->currency_list);
+        $this->ratesArray = $this->createRatesArray();
     }
 
     public function getKeys()
@@ -46,7 +49,7 @@ class Converter
      * Private method called by the constructor to get
      * the latest conversion rates.
      */
-    public function createConversions()
+    private function createRatesArray()
     {
         $conversions = []; #Initailize the array.
         /*
@@ -71,13 +74,18 @@ class Converter
         return $conversions;
     }
 
+    public function getRatesArray()
+    {
+        return $this->ratesArray;
+    }
+
     /*
      * Public method to do the actual conversion.
      * If $round is true, the value is rounded
      * to the nearest whole number.  Otherwise,
      * it's rounded to the nearest hundredth.
      */
-    public function convert($conversion, float $amount, bool $round = false)
+    public function convert($conversion, float $amount, $round = false)
     {
         $converted = $amount * (float)$conversion;
         $dec_places = $round ? 0 : 2; # ternary operation

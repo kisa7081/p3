@@ -11,10 +11,6 @@
 |
 */
 
-//Route::get('/', function () {
-//    return view('index');
-//});
-
 Route::get('/', 'ConverterController@index');
 
 Route::get('/convert', 'ConverterController@convert');

@@ -4,47 +4,56 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Converter;
-
+use Illuminate\Support\Facades\Cache;
 class ConverterController extends Controller
 {
-    private $conv;
-    private $currency_list;
-    private $current;
-    private $target;
-    private $round;
-    private $hasErrors;
-
-    public function __construct()
+    public function index(Request $req)
     {
-        $this->conv = new Converter();
-        $this->currency_list = $this->conv->getCurrencyList();
-        $this->current = $this->conv->getKeys()[0];
-        $this->target = $this->conv->getKeys()[1];
-        $this->round = false;
-        $this->hasErrors = false;
-    }
+        $conv = $this->getConverter();
+        return view('index')->with(['timeValue' => time(),
+            'amount' => $req->amount,
+            'currency_list' => $conv->getCurrencyList(),
+            'current' => $req->current,
+            'target' => $req->target,
+            'round' => $req->round,
 
-    public function index()
-    {
-        return view('index', ['timeValue' => time(),
-            'amount' => 0,
-            'currency_list' => $this->currency_list,
-            'current' => $this->current,
-            'target' => $this->target,
-            'round' => $this->round,
-            'hasErrors' => $this->hasErrors
+            'keys' => $conv->getKeys()
         ]);
     }
 
-    public function convert()
+    public function convert(Request $req)
     {
-        return view('convert', ['timeValue' => time(),
-            'amount' => 0,
-            'currency_list' => $this->currency_list,
-            'current' => $this->current,
-            'target' => $this->target,
-            'round' => $this->round,
-            'hasErrors' => $this->hasErrors
+        $req->validate([
+            'amount' => 'required|numeric'
         ]);
+
+        $conv = $this->getConverter();
+        $rates = $conv->getRatesArray();
+
+        $converted = $conv->convert($rates[$req->current][$req->target], $req->amount, $req->round);
+        return view('index')->with(['timeValue' => time(),
+            'amount' => $req->amount,
+            'currency_list' => $conv->getCurrencyList(),
+            'current' => $req->current,
+            'target' => $req->target,
+            'round' => $req->round,
+            'converted' => $converted,
+            'keys' => $conv->getKeys()
+        ]);
+    }
+
+    private function getConverter()
+    {
+        $conv = null;
+        if (Cache::has('converter'))
+        {
+            $conv = Cache::get('converter');
+        }
+        else
+        {
+            $conv = new Converter();
+            Cache::put('converter', $conv);
+        }
+        return $conv;
     }
 }

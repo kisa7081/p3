@@ -22,7 +22,7 @@
         </p>
     </header>
     @yield('form')
-    @yield('convert')
+
 
 </section>
 </body>
