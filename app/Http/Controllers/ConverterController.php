@@ -14,8 +14,8 @@ class ConverterController extends Controller
     public function index(Request $req)
     {
         $conv = $this->getConverter();
-        dump($req->current);
-        return view('index')->with(
+        return view('index'
+        )->with(
             [
                 'ratesTimeStamp' => $conv->getRatesTimeStamp(),
                 'keys' => $conv->getKeys(),
