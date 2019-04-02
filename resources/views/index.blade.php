@@ -1,64 +1,82 @@
 @extends('layouts.master')
 
-@section('form')
+@section('content')
     <form method='GET' action='/convert'>
-        <input type='hidden' name='timeValue' value='{{$timeValue }}'>
-
-        <label>Enter currency amount:
-            <input type='text' name='amount' id='amount' value='{{old('amount', $amount)}}'/>
-        </label>
-        <br>
+        <div class='row'>
+            <div class='col text-right'>
+                Enter currency amount:
+            </div>
+            <div class='col text-left'>
+                <input type='text' name='amount' value='{{old('amount', $amount)}}'/>
+            </div>
+            <br>
+        </div>
         @if($errors->get('amount'))
-            <div class='error'>{{ $errors->first('amount') }}</div>
+            <br/>
+            <div class='alertbox alert-danger font-italic'>
+                {{ $errors->first('amount') }}
+            </div>
         @endif
-        <br>
-        <label>Choose currency:
-            <select name='current' id='current'>
-                @foreach ($currency_list as $code => $value)
-                    <option value='{{ $code }}'
-                    @if ($code == old('current', $current))
-                        {{'selected'}}
+        <br/>
+        <div class='row'>
+            <div class='col text-right'>
+                Choose currency:
+            </div>
+            <div class='col text-left'>
+                <select name='current' >
+                    @foreach ($currency_list as $code => $value)
+                        <option value='{{ $code }}'
+                            @if ($code == old('current', $current))
+                                {{'selected'}}
                             @endif
-                    >{{$value}}</option>
-                @endforeach
-            </select>
-        </label>
+                            >{{$value}}
+                        </option>
+                    @endforeach
+                </select>
+            </div>
+        </div>
+        <br/>
+        <div class='row'>
+            <div class='col text-right'>
+                Choose currency to convert to:
+            </div>
+            <div class='col text-left'>
+                <select name='target' >
+                {{$i = 0}}
+                    @foreach ($currency_list as $code => $value)
+                        <option value='{{ $i }}'
+                            @if ($i++ == old('target', $target))
+                                {{'selected'}}
+                            @endif
+                            >{{$value}}
+                        </option>
+                    @endforeach
+                </select>
+            </div>
+        </div>
         <br>
-        <br>
-        <label>Choose currency to convert to:
-            <select name='target' id='target'>
-            {{$i = 0}}
-                @foreach ($currency_list as $code => $value)
-                    <option value='{{ $i }}'
-                    @if ($i++ == old('target', $target))
-                        {{'selected'}}
+        <div class='row'>
+            <div class='col text-right'>
+                Round value to nearest whole number?
+            </div>
+            <div class='col text-left'>
+                <input type='checkbox' name='round' value='true'
+                    @if(old('round', $round))
+                        {{'checked'}}
                     @endif
-                    >{{$value}}</option>
-                @endforeach
-            </select>
-        </label>
+                >
+            </div>
+        </div>
         <br>
-        <br>
-        <label>
-            Round value to nearest whole number?
-            <input type='checkbox' name='round' id='round' value='true'
-            @if(old('round', $round))
-                {{'checked'}}
-            @endif
-            >
-        </label>
-        <br>
-        <br>
-        <input type='submit' value='Convert' >
+        <input type='submit' value='Convert' class='btn btn-primary'>
+        <br/>
     </form>
-    <br>
-    <br>
     @if (isset($converted) && (!isset($errors) || count($errors) == 0))
-
-        <div class='alert alert-info'>
+        <div class='alertbox alert-info font-weight-bold'>
             The converted amount is: {{$converted }}
         </div>
     @endif
+    <a href='/refresh' class='btn btn-success refresh'>Refresh Rates and Reset Form</a>
 @endsection
 
 

@@ -18,7 +18,15 @@ class Converter
      */
     private $keys;
 
+    /*
+     * An array the holds the conversion rates.
+     */
     private $ratesArray;
+
+    /*
+     * Time stamp signifying when the rates were retrieved.
+     */
+    private $ratesTimeStamp;
 
     #Methods
     /*
@@ -28,8 +36,12 @@ class Converter
     {
         # Set up the values that will be used.
         $this->currency_list = config('app.currency_list');
+
         $this->keys = array_keys($this->currency_list);
+
         $this->ratesArray = $this->createRatesArray();
+
+        $this->ratesTimeStamp = date("F j, Y g:i a T");
     }
 
     public function getKeys()
@@ -74,6 +86,17 @@ class Converter
         return $conversions;
     }
 
+    /*
+     * Returns the time stamp of when the rates were fetched.
+     */
+    public function getRatesTimeStamp()
+    {
+        return $this->ratesTimeStamp;
+    }
+
+    /*
+     * Returns the array containing the rates.
+     */
     public function getRatesArray()
     {
         return $this->ratesArray;
@@ -88,8 +111,11 @@ class Converter
     public function convert($conversion, float $amount, $round = false)
     {
         $converted = $amount * (float)$conversion;
+
         $dec_places = $round ? 0 : 2; # ternary operation
-        $converted = number_format(round($converted, 2), $dec_places);
+
+        $converted = number_format(round($converted, 2), $dec_places) . ($round ? '.00' : '');
+
         return $converted;
     }
 

@@ -18,29 +18,23 @@ h1 {
     font-size: 28px;
 }
 
-input[name=amount] {
-    width: 150px;
-}
-
-.alert-info {
-    color: #0c5460;
-    background-color: #d1ecf1;
-
-}
-
-.alert {
-    position:relative;
+.alertbox {
+    position: relative;
     padding: .75em 1.25em;
     border: 1px solid #000000;
     width: 50%;
-    margin:auto auto 1em auto;
+    margin: .5em auto auto auto;
 }
 
+form {
+    background-color: #ffffff;
+    padding: .75em 1.25em;
+    border-top: 1px solid #000000;
+    border-bottom: 1px solid #000000;
+}
 
-.alert-danger {
-    color: #721c24;
-    background-color: #f8d7da;
-    /*border-color*/
+.refresh {
+    margin: .5em auto .5em auto;
 }
 
 
