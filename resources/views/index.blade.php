@@ -42,10 +42,9 @@
             </div>
             <div class='col text-left'>
                 <select name='target' >
-                {{$i = 0}}
                     @foreach ($currency_list as $code => $value)
-                        <option value='{{ $i }}'
-                            @if ($i++ == old('target', $target))
+                        <option value='{{ $loop->index }}'
+                            @if ($loop->index == old('target', $target))
                                 {{'selected'}}
                             @endif
                             >{{$value}}
