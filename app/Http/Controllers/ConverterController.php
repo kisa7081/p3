@@ -14,6 +14,7 @@ class ConverterController extends Controller
     public function index(Request $req)
     {
         $conv = $this->getConverter();
+
         return view('index'
         )->with(
             [
@@ -44,17 +45,18 @@ class ConverterController extends Controller
         $converted = $conv->convert($rates[$req->current][$req->target], $req->amount, $req->round);
 
         return view('index')->with(
-        [
-            'ratesTimeStamp' => $conv->getRatesTimeStamp(),
-            'amount' => $req->amount,
-            'currency_list' => $conv->getCurrencyList(),
-            'current' => $req->current,
-            'target' => $req->target,
-            'round' => $req->round,
-            'converted' => $converted,
-            'keys' => $conv->getKeys()
-        ]);
+            [
+                'ratesTimeStamp' => $conv->getRatesTimeStamp(),
+                'amount' => $req->amount,
+                'currency_list' => $conv->getCurrencyList(),
+                'current' => $req->current,
+                'target' => $req->target,
+                'round' => $req->round,
+                'converted' => $converted,
+                'keys' => $conv->getKeys()
+            ]);
     }
+
     /*
      * Fetches new values for the conversion rates and resets the page.
      */
@@ -90,6 +92,7 @@ class ConverterController extends Controller
     private function refreshRates()
     {
         $conv = new Converter();
+
         Cache::put('converter', $conv);
     }
 }

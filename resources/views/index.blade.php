@@ -12,12 +12,12 @@
             <br>
         </div>
         @if($errors->get('amount'))
-            <br/>
+            <br>
             <div class='alertbox alert-danger font-italic'>
                 {{ $errors->first('amount') }}
             </div>
         @endif
-        <br/>
+        <br>
         <div class='row'>
             <div class='col text-right'>
                 Choose currency:
@@ -35,7 +35,7 @@
                 </select>
             </div>
         </div>
-        <br/>
+        <br>
         <div class='row'>
             <div class='col text-right'>
                 Choose currency to convert to:
@@ -69,7 +69,7 @@
         </div>
         <br>
         <input type='submit' value='Convert' class='btn btn-primary'>
-        <br/>
+        <br>
     </form>
     @if (isset($converted) && (!isset($errors) || count($errors) == 0))
         <div class='alertbox alert-info font-weight-bold'>
