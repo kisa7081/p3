@@ -2,7 +2,7 @@
 
 + Reviewer's name: Daniel McCullough
 + Reviwee's name: Phil Plencner
-+ URL to Reviewe's P3 Github Repo URL: https://github.com/kisa7081/p3/blob/master/peer-review.md
++ URL to Reviewee's P3 Github Repo URL: https://github.com/kisa7081/p3/blob/master/peer-review.md
 
 ## Billboard Top Album Charts
 
